@@ -1,0 +1,28 @@
+﻿@inherits LayoutComponentBase
+
+<link href ="css/mainlayout.css" rel="stylesheet" />
+
+<div class="page">
+
+    <div class="sidebar">
+        <nav>
+            <ul>
+                <li>
+                   <NavLink href = "/add-contact" class="nav-link" ActiveClass="active">Add Contact</NavLink>
+                </li>
+
+                <li>
+                    <NavLink href="/view-contacts" class="nav-link" ActiveClass="active">View Contacts</NavLink>
+                </li>
+
+              
+            </ul>
+        </nav>
+
+    </div>
+
+
+    <div class="main">
+        @Body
+    </div>
+</div>

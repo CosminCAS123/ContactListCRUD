@@ -1,0 +1,50 @@
+﻿@page "/add-contact"
+@using ContactListCRUD.Data
+@using Microsoft.AspNetCore.Components.Forms
+@using ContactListCRUD.Models
+@using ContactListCRUD.Services
+@inject ContactService cont_service
+@inject NavigationManager Navigation
+
+<link href="css/addcontact.css" rel="stylesheet"/>
+
+<h3>Add new contact</h3>
+
+<div class="contact-form">
+    <EditForm Model="newContact" OnValidSubmit="HandleValidSubmit">
+            <DataAnnotationsValidator></DataAnnotationsValidator>
+            <ValidationSummary></ValidationSummary>
+
+            <div class="mb-3">
+                <label for="name">Name  </label>
+                <InputText id="name" class="form-control" placeholder="Enter your name " @bind-Value="newContact.Name" ></InputText>
+
+
+            </div>
+
+            <div class="mb-3">
+                <label for="email">Email</label>
+                <InputText id="email" type ="email" class="form-control" placeholder ="Enter your adress" @bind-Value="newContact.Email"></InputText>
+
+            </div>
+
+            <div class="mb-3">
+                <label for="number">Phone Number</label>
+                <InputText id="number" type="tel" class="form-control" placeholder ="Enter your phone number" @bind-Value="newContact.Phone"></InputText>
+            </div>
+            <button type="submit" class ="btn-primary">Add Contact</button>
+    </EditForm>
+</div>
+
+@code{
+    private Contact newContact = new Contact();
+
+    private async Task HandleValidSubmit()
+    {
+        await this.cont_service.AddContactAsync(newContact);
+        Navigation.NavigateTo("/view-contacts");
+
+    }
+
+}
+

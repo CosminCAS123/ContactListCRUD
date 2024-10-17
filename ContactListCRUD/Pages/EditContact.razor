@@ -1,0 +1,65 @@
+﻿@page "/edit-contact/{id:int}"
+@using ContactListCRUD.Services
+@using ContactListCRUD.Models
+@using Microsoft.AspNetCore.Components.Forms
+@inject ContactService cont_service
+@inject NavigationManager Navigation
+
+<link href="css/addcontact.css" rel="stylesheet" />
+
+
+<h3>Edit contact</h3>
+
+@if(this.contact == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <EditForm Model="contact" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator/>
+        <ValidationSummary/>
+
+        <div class="mb-3">
+            <label for="name">Name</label>
+            <InputText id="name" class="form-control" @bind-Value="contact.Name" placeholder="Enter name" />
+        </div>
+
+        <div class="mb-3">
+            <label for="email">Email</label>
+            <InputText id="email" type="email" class="form-control" @bind-Value="contact.Email" placeholder="Enter email" />
+        </div>
+
+        <div class="mb-3">
+            <label for="phone">Phone</label>
+            <InputText id="phone" type="tel" class="form-control" @bind-Value="contact.Phone" placeholder="Enter phone number" />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update Contact</button>
+    </EditForm>
+
+}
+
+@code{
+
+
+    [Parameter]public int Id{ get; set; }
+    private Contact? contact;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        this.contact = await cont_service.GetContactByIdAsync(Id);
+
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        await this.cont_service.UpdateContactAsync(contact!);
+        Navigation.NavigateTo("/view-contacts");
+
+    }
+
+
+
+}
